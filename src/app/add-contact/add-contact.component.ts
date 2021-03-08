@@ -15,40 +15,52 @@ export class AddContactComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private router: Router,
      private userService: UserService) { }
-      addForm: FormGroup;
-      @Output()
-      createUsercontact = new EventEmitter<User>();
+      userForm: FormGroup;
 
+    
       emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
       ngOnInit() {
-      this.addForm = this.formBuilder.group({
-          id: [],
-          email: ['', [Validators.required, Validators.pattern(this.emailRegex)]],
-          prenom: ['', Validators.required],
-          nom: ['', Validators.required]
+    
+        this.userForm = this.formBuilder.group({
+          firstName: ['', [Validators.required]],
+          lastName: '',
+          email: '',
+          drinkPreference: ''
         });
       }
 
       isInvalid(name: string) {
-        const control = this.addForm.get(name);
+        const control = this.userForm.get(name);
         return control.invalid && control.dirty;
       }
 
       isEmailInvalid(name: string) {
-        const control = this.addForm.get(name);
+        const control = this.userForm.get(name);
         return control.invalid && control.dirty;
       }
 
-      onSubmit() {
-        this.userService.create(this.addForm.value);
-
-        this.router.navigate(['']);
-      }
+     
 
       onCancel(){
         //this.ngOnInit();
         alert("cancel");
+      }
+
+      onSubmitForm() {
+        const formValue = this.userForm.value;
+        const newUser = new User();
+        alert(formValue['firstName']);
+        alert(formValue['lastName']);
+        alert(formValue['email']);
+        newUser.prenom=formValue['firstName'];
+        newUser.nom=formValue['lastName'];
+        newUser.email=formValue['email'];
+       
+        
+        this.userService.create(newUser);
+        this.router.navigate(['']);
+
       }
 
 }
