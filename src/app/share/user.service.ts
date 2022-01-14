@@ -38,10 +38,11 @@ export class UserService {
     this.usercontacts.splice(this.usercontacts.indexOf(usercontact), 1);
   }
 
-  update(usercontact: User) {
-    const itemIndex = this.usercontacts.findIndex(item => item.id === usercontact.id);
-    console.log(itemIndex);
-    this.usercontacts[itemIndex] = usercontact;
+  update(usercontact: User,id:number) {
+    //const itemIndex = this.usercontacts.findIndex(item => item.id === usercontact.id);
+    console.log(id);
+    console.log(usercontact);
+    this.usercontacts[id] = usercontact;
   }
 
   getall(): User[] {

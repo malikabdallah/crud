@@ -17,23 +17,17 @@ export class EditContactComponent implements OnInit {
   addForm: FormGroup;
   usercontact: User;
 
+  id:number;
   emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
   ngOnInit() {
-    const userId = localStorage.getItem('editUserId');
-    if (!userId) {
-      alert('Invalid action.');
-      this.router.navigate(['']);
-      return;
-    }
+    this.id = Number(localStorage.getItem('id'));
+    
   this.addForm = this.formBuilder.group({
-      id: [],
       email: ['', [Validators.required, Validators.pattern(this.emailRegex)]],
-      firstname: ['', Validators.required],
-      lastname: ['', Validators.required]
+      prenom: ['', Validators.required],
+      nom: ['', Validators.required]
     });
-    const data = this.userService.getUserById(+userId);
-    this.addForm.setValue(data);
   }
 
     isInvalid(name: string) {
@@ -47,7 +41,14 @@ export class EditContactComponent implements OnInit {
   }
 
   onSubmit() {
-    this.userService.update(this.addForm.value);
+    let user:User;
+    user=new User();
+    let value=this.addForm.value;
+    user.id=this.id;
+    user.nom=value["nom"];
+    user.prenom=value["prenom"];
+    user.email=value["email"];
+    this.userService.update(user,this.id);
     this.router.navigate(['']);
   }
 

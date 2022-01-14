@@ -18,8 +18,8 @@ export class UsercontactComponent implements OnInit {
 
         editUserContact(usercontact: User) {
           console.log(usercontact);
-          localStorage.removeItem('editUserId');
-          localStorage.setItem('editUserId', usercontact.id.toString());
+          localStorage.removeItem('id');
+          localStorage.setItem('id', usercontact.id.toString());
           this.router.navigate(['edit']);
           // this.ucs.update(usercontact);
         }
